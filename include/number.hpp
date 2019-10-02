@@ -13,6 +13,7 @@ class number
     number operator+ (const number& n);
     number operator* (const number& n);
     void operator= (const number& n);
+    double norm();
   private:
     number(const number_field & parent, const double r0, const double r1, const double r2)
       : parent(parent), r0(r0), r1(r1), r2(r2) {}

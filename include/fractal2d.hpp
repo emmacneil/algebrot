@@ -27,34 +27,41 @@
  * This class stores, at each pixel in the image, the number of iterations it took for the
  * corresponding point to escape the sphere of radius 2.
  */
+
+#include "number_field.hpp"
+#include "number.hpp"
+
 class fractal2d
 {
   public :
-    fractal2d();
+    fractal2d(int w, int h);
     ~fractal2d();
 
+    unsigned char data_at(int i, int j);
     void fill_data();
-    void move();
+    void move(int u, int v);
     void reset();
-    void resize();
+    void resize(int w, int h);
   private :
     // Number field
     number_field K;
     // Iterating function
     number f(number z, number c);
+    // Counts the number of iterations before c escapes the sphere of radius 2.
+    unsigned char iterate(number c);
     // Coordinate to fix
-    enum fixed_coord;
+    //enum fixed_coord;
     // Value at which to fix it.
     double w;
     // Upper left corner (u, v)
-    number u, v;
-    // Distance between each pixle
+    double u, v;
+    // Distance between each pixel
     double step;
     // Width/height in pixels
     int width, height;
     // Pixel data.
-    unsigned short * data;
-    // Gradient data
+    unsigned char * data;
+    // Gradient data (maybe this belongs outside the class)
     unsigned char * gradient;
 };
 

@@ -3,7 +3,8 @@
 #ifndef __APP_HPP__
 #define __APP_HPP__
 
-#include <sdl_graphics.hpp>
+#include "sdl_graphics.hpp"
+#include "fractal2d.hpp"
 
 
 
@@ -21,6 +22,7 @@ class app
     void render();
 
     sdl_graphics renderer;
+    fractal2d * fractal;
 };
 
 #endif

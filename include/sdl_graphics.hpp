@@ -12,7 +12,12 @@ class sdl_graphics : public graphics
     ~sdl_graphics();
     bool init();
     void quit();
+    int window_width();
+    int window_height();
+    void clear();
+    void present();
+    void draw_point(int x, int y, int r, int g, int b, int a = 255);
   private:
     SDL_Window * window;
-    SDL_Surface * surface;
+    SDL_Renderer * renderer;
 };

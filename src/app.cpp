@@ -63,6 +63,17 @@ bool app::init()
     std::cout << "Failed to initialize renderer." << std::endl;
     return false;
   }
+
+  std::cout << "Constructing fractal." << std::endl;
+  int width = renderer.window_width();
+  int height = renderer.window_height();
+  fractal = new fractal2d(width, height);
+  if (fractal == nullptr)
+  {
+    std::cout << "Failed to construct fractal." << std::endl;
+    return false;
+  }
+
   return true;
 }
 
@@ -70,12 +81,26 @@ bool app::init()
 
 void app::quit()
 {
+  if (fractal != nullptr)
+    delete fractal;
 }
 
 
 
 void app::render()
 {
+  renderer.clear();
+  int w = renderer.window_width();
+  int h = renderer.window_height();
+  for (int i = 0; i < w; i++)
+  {
+    for (int j = 0; j < h; j++)
+    {
+      int shade = fractal->data_at(i,j);
+      renderer.draw_point(i, j, shade, shade, shade);
+    }
+  }
+  renderer.present();
 }
 
 

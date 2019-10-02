@@ -36,3 +36,11 @@ void number::operator= (const number & n)
   r1 = n.r1;
   r2 = n.r2;
 }
+
+
+
+double number::norm()
+{
+  // TODO : Compute the actual norm
+  return std::max(std::max(r0, r1), r2);
+}

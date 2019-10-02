@@ -7,7 +7,7 @@
 
 
 sdl_graphics::sdl_graphics()
-  : window(nullptr), surface(nullptr)
+  : window(nullptr), renderer(nullptr)
 {
   //...
 }
@@ -17,6 +17,22 @@ sdl_graphics::sdl_graphics()
 sdl_graphics::~sdl_graphics()
 {
   quit();
+}
+
+
+
+void sdl_graphics::clear()
+{
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_RenderClear(renderer);
+}
+
+
+
+void sdl_graphics::draw_point(int x, int y, int r, int g, int b, int a)
+{
+  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+  SDL_RenderDrawPoint(renderer, x, y);
 }
 
 
@@ -40,6 +56,14 @@ bool sdl_graphics::init()
     return false;
   }
 
+  std::cout << "Creating a 2D rendering context for window." << std::endl;
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+  {
+    std::cout << "Failed to create rendering context." << std::endl;
+    std::cout << "SDL error: " << SDL_GetError() << std::endl;
+    return false;
+  }
+
   return true;
 }
 
@@ -47,9 +71,34 @@ bool sdl_graphics::init()
 
 void sdl_graphics::quit()
 {
-  if (surface != nullptr)
-    SDL_FreeSurface(surface);
+  if (renderer != nullptr)
+    SDL_DestroyRenderer(renderer);
   if (window != nullptr)
     SDL_DestroyWindow(window);
   SDL_Quit();
+}
+
+
+
+void sdl_graphics::present()
+{
+  SDL_RenderPresent(renderer);
+}
+
+
+
+int sdl_graphics::window_width()
+{
+  int ret;
+  SDL_GetWindowSize(window, &ret, nullptr);
+  return ret;
+}
+
+
+
+int sdl_graphics::window_height()
+{
+  int ret;
+  SDL_GetWindowSize(window, nullptr, &ret);
+  return ret;
 }
