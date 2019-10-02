@@ -1,7 +1,7 @@
-// fractal.hpp
+// fractal2d.hpp
 
-#ifndef __FRACTAL_HPP__
-#define __FRACTAL_HPP__
+#ifndef __FRACTAL2D_HPP__
+#define __FRACTAL2D_HPP__
 
 /* The fractal2d class should contain information about a 2-dimensional slice of the
  * 3-dimensional fractal.
@@ -23,6 +23,9 @@
  *
  * There should be a constant to set an upper bound no the number of times we iterate,
  * and a color gradient to choose how to color pixels.
+ *
+ * This class stores, at each pixel in the image, the number of iterations it took for the
+ * corresponding point to escape the sphere of radius 2.
  */
 class fractal2d
 {
@@ -30,16 +33,29 @@ class fractal2d
     fractal2d();
     ~fractal2d();
 
+    void fill_data();
+    void move();
+    void reset();
     void resize();
-    void fill_data()
   private :
     // Number field
+    number_field K;
     // Iterating function
+    number f(number z, number c);
     // Coordinate to fix
+    enum fixed_coord;
     // Value at which to fix it.
+    double w;
     // Upper left corner (u, v)
+    number u, v;
+    // Distance between each pixle
+    double step;
     // Width/height in pixels
+    int width, height;
     // Pixel data.
+    unsigned short * data;
+    // Gradient data
+    unsigned char * gradient;
 };
 
 #endif
