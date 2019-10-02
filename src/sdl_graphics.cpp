@@ -57,7 +57,8 @@ bool sdl_graphics::init()
   }
 
   std::cout << "Creating a 2D rendering context for window." << std::endl;
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  if (renderer == nullptr)
   {
     std::cout << "Failed to create rendering context." << std::endl;
     std::cout << "SDL error: " << SDL_GetError() << std::endl;
