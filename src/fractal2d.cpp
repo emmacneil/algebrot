@@ -7,7 +7,7 @@
 
 
 fractal2d::fractal2d(int w, int h)
-  : K(1, -2, -1), width(w), height(h)
+  : K(1, 1, 1), width(w), height(h), BOUND(16)
 {
   // Allocate enough memory for fractal
   data = (unsigned short *)malloc(w*h*sizeof(unsigned short));
@@ -34,18 +34,20 @@ fractal2d::~fractal2d()
 
 
 
-unsigned short fractal2d::data_at(int i, int j)
+unsigned short fractal2d::data_at(int row, int col)
 {
   if (data == nullptr)
   {
     std::cout << "No memory allocated for fractal data." << std::endl;
     return 0;
   }
-  int k = j*width + i;
+  int k = row*width + col;
   if (k >= width*height)
     return 0;
   return data[k];
 }
+
+
 
 number fractal2d::f(number z, number c)
 {
@@ -79,8 +81,6 @@ void fractal2d::fill_data()
 
 unsigned short fractal2d::iterate(number c)
 {
-  const int BOUND = 1000;
-  
   number z = K(0, 0, 0);
   for (int i = 0; i < BOUND; i++)
   {

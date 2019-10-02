@@ -16,6 +16,7 @@ class app
     void quit();
     void run();
   private:
+    void pick_color(const unsigned short i, int * r, int * g, int * b);
     bool handle_input();
     bool handle_key_event(SDL_KeyboardEvent & e);
     bool handle_window_event(SDL_WindowEvent & e);

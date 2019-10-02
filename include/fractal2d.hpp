@@ -37,11 +37,13 @@ class fractal2d
     fractal2d(int w, int h);
     ~fractal2d();
 
-    unsigned short data_at(int i, int j);
+    unsigned short data_at(int row, int col);
     void fill_data();
     void move(int u, int v);
     void reset();
     void resize(int w, int h);
+
+    const int BOUND;
   private :
     // Number field
     number_field K;

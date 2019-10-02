@@ -29,6 +29,14 @@ void sdl_graphics::clear()
 
 
 
+void sdl_graphics::draw_line(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
+{
+  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+  SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+}
+
+
+
 void sdl_graphics::draw_point(int x, int y, int r, int g, int b, int a)
 {
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
