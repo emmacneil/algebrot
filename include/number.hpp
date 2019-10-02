@@ -7,6 +7,7 @@
 
 class number
 {
+  friend class number_field;
   public: 
     friend std::ostream& operator<< (std::ostream& os, const number & n);
     number operator+ (const number& n);

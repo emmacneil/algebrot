@@ -5,6 +5,7 @@
 std::ostream& operator<< (std::ostream& os, const number& n)
 {
   os << n.r0 << " + " << n.r1 << "*a + " << n.r2 << "*a^2";
+  return os;
 }
 
 number number::operator+ (const number & n)

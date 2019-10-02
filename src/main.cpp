@@ -3,21 +3,95 @@
 #include <iostream>
 #include "number_field.hpp"
 #include "number.hpp"
+#include "sdl_graphics.hpp"
 
 using namespace std;
 
+
+
+bool handle_input();
+bool handle_key_event(SDL_KeyboardEvent & e);
+bool handle_window_event(SDL_WindowEvent & e);
+void render();
+void run();
+
+
+
 int main(int argc, char * argv[])
 {
-  number_field K(1, -2, -1);
-  number z = K(0, 0, 0);
-  number c = K(0.1, 0.1, 0.01);
-
-  cout << z << endl;
-  for (int i = 0; i < 100; i++)
+  sdl_graphics g;
+  
+  if (g.init())
   {
-    z = z*z + c;
-    cout << z << endl;
+    run();
+  }
+  else
+    cout << "Could not initialize graphics." << endl;
+
+  cout << "Exiting." << endl;
+  
+  return 0;
+}
+
+
+
+// Handles mouse and keyboard events.
+// Returns true if an event suggests the program should terminate.
+bool handle_input()
+{
+  SDL_Event e;
+  while (SDL_PollEvent(&e)) // While there are events in the queue
+  {
+    switch (e.type) 
+    {
+      case SDL_KEYDOWN:
+        return handle_key_event(e.key);
+      case SDL_WINDOWEVENT:
+        return handle_window_event(e.window);
+      default:
+        break;
+    }
   }
 
-  return 0;
+  return false;
+}
+
+
+
+bool handle_key_event(SDL_KeyboardEvent & e)
+{
+  return true;
+}
+
+
+
+bool handle_window_event(SDL_WindowEvent & e)
+{
+  switch (e.event)
+  {
+    case SDL_WINDOWEVENT_CLOSE :
+      return true;
+    default :
+      return false;
+  }
+}
+
+
+
+// Draws the fractal
+void render()
+{
+}
+
+
+
+// Runs the input-render loop
+void run()
+{
+  bool quit = false;
+  while (!quit)
+  {
+    quit = handle_input();
+    render();
+  }
 }

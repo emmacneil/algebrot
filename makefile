@@ -1,7 +1,7 @@
 SRC_FILES := $(wildcard src/*.cpp)
 OBJ_FILES := $(addprefix obj/,$(notdir $(SRC_FILES:.cpp=.o)))
 CFLAGS := -g -std=c++11 -Iinclude
-LFLAGS := 
+LFLAGS := -lSDL2
 PROG_NAME := mandelbrot
 
 all: $(OBJ_FILES)
