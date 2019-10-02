@@ -92,12 +92,14 @@ void app::render()
   renderer.clear();
   int w = renderer.window_width();
   int h = renderer.window_height();
-  for (int i = 0; i < w; i++)
+  for (int row = 0; row < h; row++)
   {
-    for (int j = 0; j < h; j++)
+    for (int col = 0; col < w; col++)
     {
-      int shade = fractal->data_at(i,j);
-      renderer.draw_point(i, j, shade, shade, shade);
+      int shade = fractal->data_at(row, col);
+      shade *= 255;
+      shade /= 1000;
+      renderer.draw_point(col, row, shade, shade, shade);
     }
   }
   renderer.present();
@@ -110,7 +112,7 @@ void app::run()
   bool quit = false;
   while (!quit)
   {
-    quit = handle_input();
     render();
+    quit = handle_input();
   }
 }

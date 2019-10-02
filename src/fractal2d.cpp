@@ -10,11 +10,18 @@ fractal2d::fractal2d(int w, int h)
   : K(1, -2, -1), width(w), height(h)
 {
   // Allocate enough memory for fractal
-  data = (unsigned char *)malloc(w*h);
+  data = (unsigned short *)malloc(w*h*sizeof(unsigned short));
   if (data == nullptr)
     std::cout << "Could not allocated enough memory for fractal data." << std::endl;
 
   reset();
+
+  // Dump some information about fractal
+  std::cout << "Width:  " << width << std::endl;
+  std::cout << "Height: " << height << std::endl;
+  std::cout << "u:      " << u << std::endl;
+  std::cout << "v:      " << v << std::endl;
+  std::cout << "step:   " << step << std::endl;
 }
 
 
@@ -27,10 +34,16 @@ fractal2d::~fractal2d()
 
 
 
-unsigned char fractal2d::data_at(int i, int j)
+unsigned short fractal2d::data_at(int i, int j)
 {
-  int k = i*width + j;
-  if (k >= i*j) return 0;
+  if (data == nullptr)
+  {
+    std::cout << "No memory allocated for fractal data." << std::endl;
+    return 0;
+  }
+  int k = j*width + i;
+  if (k >= width*height)
+    return 0;
   return data[k];
 }
 
@@ -49,31 +62,33 @@ void fractal2d::fill_data()
     return;
   }
   int k = 0;
-  for (int i = 0; i < width; i++)
+  for (int row = 0; row < height; row++)
   {
-    for (int j = 0; j < height; j++)
+    for (int col = 0; col < width; col++)
     {
-      double x = u + (double)i * step;
-      double y = v + (double)j * step;
-      data[k++] = iterate(K(x,y,0.0)); // TODO: Account for different slices.
+      double x = u + (double)col * step;
+      double y = v - (double)row * step;
+      number n = K(x, y, 0.0);
+      unsigned short tmp = iterate(n);
+      data[k++] = tmp; // TODO: Account for different slices.
     }
   }
 }
 
 
 
-unsigned char fractal2d::iterate(number c)
+unsigned short fractal2d::iterate(number c)
 {
-  const int BOUND = 200;
+  const int BOUND = 1000;
   
   number z = K(0, 0, 0);
   for (int i = 0; i < BOUND; i++)
   {
     z = f(z, c);
-    if (z.norm() > 2)
-      return (unsigned char)i;
+    if (z.norm() > 2.0)
+      return (unsigned short)i;
   }
-  return (unsigned char)BOUND;
+  return (unsigned short)BOUND;
 }
 
 
@@ -84,8 +99,8 @@ void fractal2d::reset()
   // We want to center the fractal so that the origin (0, 0) is at the center of the screen
   // and we want at least the circle of radius 2 to be visible.
   step = 4.0/(height < width ? (double)height : (double)width);
-  u = 2.0*step*((double)width/2.0);
-  v = 2.0*step*((double)height/2.0);
+  u = -step*((double)width/2.0);
+  v =  step*((double)height/2.0);
   fill_data();
 }
 
@@ -97,7 +112,7 @@ void fractal2d::resize(int w, int h)
   height = h;
   if (data != nullptr)
     free(data);
-  data = (unsigned char *)malloc(w*h);
+  data = (unsigned short *)malloc(w*h);
   if (data == nullptr)
     std::cout << "Could not allocated enough memory for fractal data." << std::endl;
   fill_data();

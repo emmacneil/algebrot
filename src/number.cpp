@@ -42,5 +42,5 @@ void number::operator= (const number & n)
 double number::norm()
 {
   // TODO : Compute the actual norm
-  return std::max(std::max(r0, r1), r2);
+  return std::max(std::max(std::abs(r0), std::abs(r1)), std::abs(r2));
 }

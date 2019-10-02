@@ -37,7 +37,7 @@ class fractal2d
     fractal2d(int w, int h);
     ~fractal2d();
 
-    unsigned char data_at(int i, int j);
+    unsigned short data_at(int i, int j);
     void fill_data();
     void move(int u, int v);
     void reset();
@@ -48,7 +48,7 @@ class fractal2d
     // Iterating function
     number f(number z, number c);
     // Counts the number of iterations before c escapes the sphere of radius 2.
-    unsigned char iterate(number c);
+    unsigned short iterate(number c);
     // Coordinate to fix
     //enum fixed_coord;
     // Value at which to fix it.
@@ -60,9 +60,9 @@ class fractal2d
     // Width/height in pixels
     int width, height;
     // Pixel data.
-    unsigned char * data;
+    unsigned short * data;
     // Gradient data (maybe this belongs outside the class)
-    unsigned char * gradient;
+    // unsigned char * gradient;
 };
 
 #endif
