@@ -32,7 +32,7 @@ bool sdl_graphics::init()
   }
 
   std::cout << "Creating window." << std::endl;
-  window = SDL_CreateWindow("Algebrot", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
+  window = SDL_CreateWindow("Algebrot", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
   if (window == nullptr)
   {
     std::cout << "Failed to create window." << std::endl;
