@@ -15,6 +15,12 @@ number number::operator+ (const number & n)
   return m.parent(m.r0 + n.r0, m.r1 + n.r1, m.r2 + n.r2);
 }
 
+number number::operator- (const number & n)
+{
+  number m = *this;
+  return m.parent(m.r0 - n.r0, m.r1 - n.r1, m.r2 - n.r2);
+}
+
 number number::operator* (const number & n)
 {
   number m = *this;
@@ -35,6 +41,20 @@ void number::operator= (const number & n)
   r0 = n.r0;
   r1 = n.r1;
   r2 = n.r2;
+}
+
+
+
+bool number::operator== (const number & n)
+{
+  return (r0 == n.r0) && (r1 == n.r1) && (r2 == n.r2);
+}
+
+
+
+number number::operator- ()
+{
+  return parent(-r0, -r1, -r2);
 }
 
 

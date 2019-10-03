@@ -91,12 +91,16 @@ void fractal2d::fill_data()
 
 unsigned short fractal2d::iterate(number c)
 {
-  number z = K(0.0, 0.0, 0.0);
+  number z0 = K(0.0, 0.0, 0.0);
+  number z1 = K(0.0, 0.0, 0.0);
   for (int i = 0; i < BOUND; i++)
   {
-    z = f(z, c);
-    if (z.norm() > 2.0)
+    z1 = f(z0, c);
+    if (z1.norm() > 2.0)
       return (unsigned short)i;
+    if (z1 == z0)
+      break;
+    z0 = z1;
   }
   return (unsigned short)BOUND;
 }

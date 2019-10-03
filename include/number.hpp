@@ -11,8 +11,11 @@ class number
   public: 
     friend std::ostream& operator<< (std::ostream& os, const number & n);
     number operator+ (const number& n);
+    number operator- (const number& n);
     number operator* (const number& n);
     void operator= (const number& n);
+    bool operator== (const number& n);
+    number operator- ();
     double norm();
   private:
     number(const number_field & parent, const double r0, const double r1, const double r2)
