@@ -1,11 +1,12 @@
 // fractal2d.cpp
 
+#include <chrono>
 #include <iostream>
 
 #include "fractal2d.hpp"
 
 fractal2d::fractal2d(int w, int h)
-  : K(1.0, 1.0, 1.0), width(w), height(h), BOUND(100), w(-1.0)
+  : K(1.0, 1.0, 1.0), width(w), height(h), BOUND(300), w(0.0)
 {
   // Allocate enough memory for fractal
   data = (unsigned short *)malloc(w*h*sizeof(unsigned short));
@@ -56,6 +57,11 @@ number fractal2d::f(number z, number c)
 
 void fractal2d::fill_data()
 {
+  using clock = std::chrono::high_resolution_clock;
+
+  bool print_time = true;
+  std::cout << "Computing fractal ..." << std::endl;
+  auto t0 = clock::now();
   if (data == nullptr)
   {
     std::cout << "No memory allocated for fractal data." << std::endl;
@@ -73,13 +79,19 @@ void fractal2d::fill_data()
       data[k++] = tmp; // TODO: Account for different slices.
     }
   }
+  auto t1 = clock::now();
+  std::chrono::milliseconds dt = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0);
+  if (print_time)
+    std::cout << "Done (in " << dt.count() << " ms)" << std::endl;
+  else
+    std::cout << "Done)" << std::endl;
 }
 
 
 
 unsigned short fractal2d::iterate(number c)
 {
-  number z = K(0, 0, 0);
+  number z = K(0.0, 0.0, 0.0);
   for (int i = 0; i < BOUND; i++)
   {
     z = f(z, c);
