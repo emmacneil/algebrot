@@ -40,8 +40,12 @@ class fractal2d
     unsigned short data_at(int row, int col);
     void fill_data();
     void move(int u, int v);
+    void recenter(int x, int y);
     void reset();
     void resize(int w, int h);
+    void zoom(double factor);
+    // Value at which to fix it.
+    double w; // XXX : Make this private later
 
     const int BOUND;
   private :
@@ -53,8 +57,6 @@ class fractal2d
     unsigned short iterate(number c);
     // Coordinate to fix
     //enum fixed_coord;
-    // Value at which to fix it.
-    double w;
     // Upper left corner (u, v)
     double u, v;
     // Distance between each pixel

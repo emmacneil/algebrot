@@ -23,6 +23,10 @@ bool app::handle_input()
     {
       case SDL_KEYDOWN:
         return handle_key_event(e.key);
+      case SDL_MOUSEBUTTONDOWN:
+        return handle_mouse_event(e.button);
+      case SDL_MOUSEWHEEL:
+        return handle_mouse_wheel_event(e.wheel);
       case SDL_WINDOWEVENT:
         return handle_window_event(e.window);
       default:
@@ -37,20 +41,80 @@ bool app::handle_input()
 
 bool app::handle_key_event(SDL_KeyboardEvent & e)
 {
-  return true;
+  switch (e.keysym.sym)
+  {
+    case SDLK_ESCAPE:
+    case SDLK_q:
+      return true;
+    case SDLK_r:
+      fractal->reset();
+      break;
+    default:
+      break;
+  }
+  return false;
+}
+
+
+
+bool app::handle_mouse_event(SDL_MouseButtonEvent & e)
+{
+  switch (e.button)
+  {
+    case SDL_BUTTON_LEFT:
+      if (e.clicks == 1)
+      {
+        fractal->recenter(e.x, e.y);
+      }
+      else
+      {
+        fractal->zoom(2.0);
+      }
+      break;
+    case SDL_BUTTON_MIDDLE:
+        fractal->reset();
+        break;
+    case SDL_BUTTON_RIGHT:
+      // Zoom out
+        fractal->zoom(0.5);
+      break;
+    default:
+      break;
+  }
+  return false;
+}
+
+
+
+bool app::handle_mouse_wheel_event(SDL_MouseWheelEvent & e)
+{
+  if (e.y > 0)
+    fractal->zoom(2.0);
+  else
+    fractal->zoom(0.5);
+  return false;
 }
 
 
 
 bool app::handle_window_event(SDL_WindowEvent & e)
 {
+  int w, h;
   switch (e.event)
   {
     case SDL_WINDOWEVENT_CLOSE :
       return true;
+    case SDL_WINDOWEVENT_RESIZED :
+    {
+      w = renderer.window_width();
+      h = renderer.window_height();
+      //fractal->resize(w, h);
+      break;
+    } 
     default :
-      return false;
+      break;
   }
+  return false;
 }
 
 
@@ -117,7 +181,7 @@ void app::render()
 {
   renderer.clear();
 
-  bool show_center = true; // Show two red lines intersecting at center of window.
+  bool show_center = false; // Show two red lines intersecting at center of window.
   int w = renderer.window_width();
   int h = renderer.window_height();
   for (int row = 0; row < h; row++)
@@ -145,7 +209,21 @@ void app::run()
   bool quit = false;
   while (!quit)
   {
-    render();
     quit = handle_input();
+    //update();
+    render();
   }
+}
+
+
+
+void app::update()
+{
+  static float sign = 1.0f;
+  if (fractal->w > 2.0)
+    sign = -1.0f;
+  else if (fractal->w < -2.0)
+    sign = 1.0f;
+  fractal->w += 0.025f*sign;
+  fractal->fill_data();
 }

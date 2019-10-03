@@ -48,6 +48,9 @@ void sdl_graphics::draw_point(int x, int y, int r, int g, int b, int a)
 bool sdl_graphics::init()
 {
   std::cout << "Initializing SDL library." << std::endl;
+  SDL_version v;
+  SDL_GetVersion(&v);
+  std::cout << "SDL version " << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << std::endl;
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
   {
     std::cout << "Failed to initialize SDL." << std::endl;
@@ -56,7 +59,7 @@ bool sdl_graphics::init()
   }
 
   std::cout << "Creating window." << std::endl;
-  window = SDL_CreateWindow("Algebrot", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
+  window = SDL_CreateWindow("Algebrot", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_RESIZABLE);
   if (window == nullptr)
   {
     std::cout << "Failed to create window." << std::endl;
