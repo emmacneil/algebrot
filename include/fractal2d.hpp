@@ -1,7 +1,7 @@
 // fractal2d.hpp
 
-#ifndef __FRACTAL2D_HPP__
-#define __FRACTAL2D_HPP__
+#ifndef FRACTAL2D_HPP
+#define FRACTAL2D_HPP
 
 /* The fractal2d class should contain information about a 2-dimensional slice of the
  * 3-dimensional fractal.
@@ -69,4 +69,4 @@ class fractal2d
     // unsigned char * gradient;
 };
 
-#endif
+#endif // FRACTAL2D_HPP

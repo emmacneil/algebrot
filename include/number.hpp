@@ -1,5 +1,5 @@
-#ifndef __NUMBER_HPP__
-#define __NUMBER_HPP__
+#ifndef NUMBER_HPP
+#define NUMBER_HPP
 
 #include <ostream>
 
@@ -24,4 +24,4 @@ class number
     double r0, r1, r2;
 };
 
-#endif
+#endif // NUMBER_HPP

@@ -1,7 +1,7 @@
 // app.hpp
 
-#ifndef __APP_HPP__
-#define __APP_HPP__
+#ifndef APP_HPP
+#define APP_HPP
 
 #include "sdl_graphics.hpp"
 #include "fractal2d.hpp"
@@ -29,4 +29,4 @@ class app
     fractal2d * fractal;
 };
 
-#endif
+#endif // APP_HPP

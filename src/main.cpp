@@ -1,33 +1,16 @@
 // main.cpp
 
-#include <iostream>
-#include "app.hpp"
+#include "mainwindow.hpp"
 
-using namespace std;
-
-
-
-bool handle_input();
-bool handle_key_event(SDL_KeyboardEvent & e);
-bool handle_window_event(SDL_WindowEvent & e);
-void render();
-void run();
-
-
+#include <QApplication>
 
 int main(int argc, char * argv[])
 {
-  app algebrot;
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-  cout << "Initializing app." << endl;
-  if (algebrot.init())
-    algebrot.run();
-  else
-    cout << "Could not initialize app." << endl;
-
-  cout << "Exiting." << endl;
-  
-  return 0;
+    return a.exec();
 }
 
 

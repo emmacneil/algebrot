@@ -1,5 +1,5 @@
-#ifndef __NUMBER_FIELD_HPP__
-#define __NUMBER_FIELD_HPP__
+#ifndef NUMBER_FIELD_HPP
+#define NUMBER_FIELD_HPP
 
 class number;
 
@@ -23,4 +23,4 @@ class number_field
     const double a, b, c;
 };
 
-#endif
+#endif // NUMBER_FIELD_HPP
