@@ -9,12 +9,20 @@
 
 FractalWidget::FractalWidget()
 {
-    int w = width();
-    int h = height();
 }
 
 FractalWidget::~FractalWidget()
 {
+}
+
+QVector3D FractalWidget::getCenter() const
+{
+    return center;
+}
+
+float FractalWidget::getScale() const
+{
+    return scale;
 }
 
 void FractalWidget::initializeGL()
@@ -69,10 +77,10 @@ void FractalWidget::mousePressEvent(QMouseEvent *e)
         float widgetH = (float)height();
         float mouseX = (float)p.x();
         float mouseY = widgetH - (float)p.y();
-        float cornerRe = centerRe - widgetW * scale / 2.0f;
-        float cornerIm = centerIm - widgetH * scale / 2.0f;
-        centerRe = cornerRe + scale*mouseX;
-        centerIm = cornerIm + scale*mouseY;
+        float cornerX = center.x() - widgetW * scale / 2.0f;
+        float cornerY = center.y() - widgetH * scale / 2.0f;
+        center[0] = cornerX + scale*mouseX;
+        center[1] = cornerY + scale*mouseY;
     }
 
     // If it was a left click, also zoom in
@@ -84,13 +92,7 @@ void FractalWidget::mousePressEvent(QMouseEvent *e)
         scale *= 2.0f;
 
     update();
-}
-
-void FractalWidget::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    QOpenGLWidget::mouseDoubleClickEvent(e);
-    scale /= 2.0f;
-    update();
+    emit changed(center, scale);
 }
 
 void FractalWidget::paintGL()
@@ -101,9 +103,10 @@ void FractalWidget::paintGL()
     QOpenGLVertexArrayObject::Binder vertexArrayObjectBinder(&vertexArrayObject);
     shaderProgram->bind();
     // set uniform values with shaderProgram->setUniformValue(...)
-    float re = centerRe - width()*scale/2.0f;
-    float im = centerIm - height()*scale/2.0f;
-    shaderProgram->setUniformValue(glslBottomLeftLocation, re, im);
+    float x = center.x() - width()*scale/2.0f;
+    float y = center.y() - height()*scale/2.0f;
+    float z = center.z();
+    shaderProgram->setUniformValue(glslBottomLeftLocation, x, y);
     shaderProgram->setUniformValue(glslScaleLocation, scale);
     shaderProgram->setUniformValue(glslIterLocation, 200);
     f->glDrawArrays(GL_QUADS, 0, 4);
@@ -134,22 +137,40 @@ void FractalWidget::printGLSLVersion()
     qDebug() << "Using GLSL version " << str;
 }
 
-void FractalWidget::recenter(float re, float im)
-{
-    centerRe = re;
-    centerIm = im;
-}
-
 void FractalWidget::reset()
 {
     float w = width();
     float h = height();
-    centerRe = 0.0f;
-    centerIm = 0.0f;
+    center[0] = 0.0f;
+    center[1] = 0.0f;
+    center[2] = 0.0f;
     scale = 4.0f/(w < h ? w : h);
+    update();
+    emit changed(center, scale);
+}
+
+void FractalWidget::setCenter(QVector3D c)
+{
+    center = c;
+    update();
+    emit changed(center, scale);
 }
 
 void FractalWidget::resizeGL(int w, int h)
 {
     // ...
+}
+
+void FractalWidget::setModulus(QVector3D m)
+{
+    modulus = m;
+    update();
+    emit changed(center, scale);
+}
+
+void FractalWidget::setScale(float s)
+{
+    scale = s;
+    update();
+    emit changed(center, scale);
 }

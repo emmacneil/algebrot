@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QWidget>
 
+#include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
 
@@ -18,11 +19,19 @@ public:
 
 private:
     FractalWidget *fractalWidget;
-    QLineEdit *reLineEdit;
-    QLineEdit *imLineEdit;
+    QHBoxLayout *mainLayout;
+    QLineEdit *aLineEdit;
+    QLineEdit *bLineEdit;
+    QLineEdit *cLineEdit;
+    QLineEdit *xLineEdit;
+    QLineEdit *yLineEdit;
+    QLineEdit *zLineEdit;
     QLineEdit *scaleLineEdit;
     QPushButton *resetButton;
+
     void resetFractal();
+    void updateFractal();
+    void updateViewLineEdits(QVector3D center, float scale);
 };
 
 #endif // MAINWINDOW_HPP
