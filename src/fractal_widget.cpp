@@ -36,13 +36,14 @@ void FractalWidget::initializeGL()
     shaderProgram = new QOpenGLShaderProgram;
     if (!shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/glsl/shader.vert"))
         qDebug() << shaderProgram->log();
-    if (shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/glsl/mandelbrot.frag"))
+    if (shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/glsl/algebrot2d.frag"))
         qDebug() << shaderProgram->log();
     if (!shaderProgram->link())
         qDebug() << shaderProgram->log();
 
     shaderProgram->bind();
     glslBottomLeftLocation = shaderProgram->uniformLocation("bottomLeft");
+    glslModulusLocation = shaderProgram->uniformLocation("modulus");
     glslScaleLocation = shaderProgram->uniformLocation("scale");
     glslIterLocation = shaderProgram->uniformLocation("iter");
 
@@ -99,7 +100,7 @@ void FractalWidget::paintGL()
 {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClear(GL_COLOR_BUFFER_BIT);
-
+    qDebug() << modulus;
     QOpenGLVertexArrayObject::Binder vertexArrayObjectBinder(&vertexArrayObject);
     shaderProgram->bind();
     // set uniform values with shaderProgram->setUniformValue(...)
@@ -107,6 +108,7 @@ void FractalWidget::paintGL()
     float y = center.y() - height()*scale/2.0f;
     float z = center.z();
     shaderProgram->setUniformValue(glslBottomLeftLocation, x, y);
+    shaderProgram->setUniformValue(glslModulusLocation, modulus.x(), modulus.y());
     shaderProgram->setUniformValue(glslScaleLocation, scale);
     shaderProgram->setUniformValue(glslIterLocation, 200);
     f->glDrawArrays(GL_QUADS, 0, 4);

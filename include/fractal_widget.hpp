@@ -27,13 +27,12 @@ public:
 
 protected:
     int glslBottomLeftLocation;
+    int glslModulusLocation;
     int glslScaleLocation;
     int glslIterLocation;
 
-    QVector3D center;
-    QVector3D modulus;
-    float centerRe; // Value of complex number in middle of viewport
-    float centerIm;
+    QVector3D center;  // A vector (x, y, z) corresponding to the point zt^2 + yt + x
+    QVector3D modulus; // A vector (c, b, a) corresponding to the modulus polynomial t^3 + at^2 + bt + c
     float scale; // Difference between complex numbers of two orthogonally adjacent pixels
 
     QOpenGLBuffer vertexBufferObject;

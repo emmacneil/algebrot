@@ -3,6 +3,7 @@
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     leftWidget->setLayout(leftLayout);
     mainLayout->addWidget(leftWidget);
 
-    QGroupBox *modulusGroupBox = new QGroupBox(tr("Modulus"));
+    QGroupBox *modulusGroupBox = new QGroupBox(tr("Modulus (x^2 + ax + b = 0)"));
     //modulusGroupBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum));
     leftLayout->addWidget(modulusGroupBox);
 
@@ -32,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     aLineEdit = new QLineEdit;
     bLineEdit = new QLineEdit;
     cLineEdit = new QLineEdit;
-    aLineEdit->setEnabled(false);
-    bLineEdit->setEnabled(false);
+    //aLineEdit->setEnabled(false);
+    //bLineEdit->setEnabled(false);
     cLineEdit->setEnabled(false);
     modulusLayout->addRow(tr("A:"), aLineEdit);
     modulusLayout->addRow(tr("B:"), bLineEdit);
@@ -63,6 +64,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Houses the OpenGL widget that renders the fractal
     fractalWidget = new FractalWidget;
     mainLayout->addWidget(fractalWidget);
+
+    QVector3D modulus(0, 1, 0);
+    fractalWidget->setModulus(modulus);
 
     aLineEdit->setText(QString::number(0.0f));
     bLineEdit->setText(QString::number(1.0f));
@@ -99,8 +103,11 @@ void MainWindow::updateFractal()
     y = yLineEdit->text().toFloat();
     z = zLineEdit->text().toFloat();
     s = scaleLineEdit->text().toFloat();
-    fractalWidget->setModulus(QVector3D(a, b, c));
-    fractalWidget->setCenter(QVector3D(x, y, z));
+
+    QVector3D modulus = QVector3D(a, b, c);
+    QVector3D center = QVector3D(x, y, z);
+    fractalWidget->setModulus(modulus);
+    fractalWidget->setCenter(center);
     fractalWidget->setScale(s);
 }
 

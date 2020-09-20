@@ -39,7 +39,8 @@ HEADERS += \
     include/shader.hpp
 
 DISTFILES += \
-    glsl/algebrot.frag \
+    glsl/algebrot2d.frag \
+    glsl/algebrot3d.frag \
     glsl/mandelbrot.frag \
     glsl/shader.frag \
     glsl/shader.vert
