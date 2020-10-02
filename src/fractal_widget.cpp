@@ -32,6 +32,7 @@ void FractalWidget::initializeGL()
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    f->glEnable(GL_TEXTURE_1D);
 
     shaderProgram = new QOpenGLShaderProgram;
     if (!shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/glsl/shader.vert"))
@@ -41,6 +42,7 @@ void FractalWidget::initializeGL()
         qDebug() << shaderProgram->log();
 
     shaderProgram->bind();
+    glslTexSamplerLocation = shaderProgram->uniformLocation("texSampler");
     glslBottomLeftLocation = shaderProgram->uniformLocation("bottomLeft");
     glslModulusLocation = shaderProgram->uniformLocation("modulus");
     glslScaleLocation = shaderProgram->uniformLocation("scale");
@@ -58,6 +60,8 @@ void FractalWidget::initializeGL()
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), nullptr);
 
     texture = new QOpenGLTexture(QImage(":/img/gradient.png"));
+    if (!texture->create())
+        qDebug() << "Could not create texture";
 
     vertexBufferObject.release();
     shaderProgram->release();
@@ -101,18 +105,21 @@ void FractalWidget::paintGL()
 {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClear(GL_COLOR_BUFFER_BIT);
-    qDebug() << modulus;
-    QOpenGLVertexArrayObject::Binder vertexArrayObjectBinder(&vertexArrayObject);
-    shaderProgram->bind();
-    texture->bind();
 
     float x = center.x() - width()*scale/2.0f;
     float y = center.y() - height()*scale/2.0f;
     float z = center.z();
+
+    QOpenGLVertexArrayObject::Binder vertexArrayObjectBinder(&vertexArrayObject);
+    shaderProgram->bind();
+    texture->bind(0);
+
+    shaderProgram->setUniformValue(glslTexSamplerLocation, 0);
     shaderProgram->setUniformValue(glslBottomLeftLocation, x, y, z);
     shaderProgram->setUniformValue(glslModulusLocation, modulus);
     shaderProgram->setUniformValue(glslScaleLocation, scale);
-    shaderProgram->setUniformValue(glslIterLocation, 100);
+    shaderProgram->setUniformValue(glslIterLocation, 1000);
+
     f->glDrawArrays(GL_QUADS, 0, 4);
     shaderProgram->release();
 }

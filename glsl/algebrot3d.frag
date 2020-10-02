@@ -1,5 +1,5 @@
 #version 130
-uniform sampler1D texSampler;
+uniform sampler2D texSampler;
 uniform vec3 bottomLeft;
 uniform vec3 modulus;
 uniform float scale;
@@ -30,7 +30,6 @@ void main(void)
     }
 
     // Sample color from texture
-    float col = (i == iter ? 0.0 : 1.0-float(i)/float(iter));
-    fragColor = vec4(col, col, col, 1.0f);
-    //fragColor = texture(texSampler, col);
+    vec2 P = vec2(i == iter ? 0.0 : 1.0-float(i)/float(iter), 0.0f);
+    fragColor = texture2D(texSampler, P);
 }
