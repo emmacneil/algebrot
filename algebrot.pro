@@ -16,13 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 TARGET = algebrot
 
 SOURCES += \
-        src/fractal2d.cpp \
         src/fractal_widget.cpp \
         src/main.cpp \
-        src/mainwindow.cpp \
-        src/number.cpp \
-        src/number_field.cpp \
-        src/shader.cpp
+        src/mainwindow.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -31,19 +27,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 INCLUDEPATH = include/
 HEADERS += \
-    include/fractal2d.hpp \
     include/fractal_widget.hpp \
-    include/mainwindow.hpp \
-    include/number.hpp \
-    include/number_field.hpp \
-    include/shader.hpp
+    include/mainwindow.hpp
 
 DISTFILES += \
     glsl/algebrot2d.frag \
-    glsl/algebrot3d.frag \
-    glsl/mandelbrot.frag \
-    glsl/shader.frag \
-    glsl/shader.vert
+    glsl/algebrot3d.frag
 
 RESOURCES += \
     resources.qrc

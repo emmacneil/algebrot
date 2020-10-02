@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/shaders">
-        <file>glsl/mandelbrot.frag</file>
-        <file>glsl/shader.frag</file>
-        <file>glsl/shader.vert</file>
         <file>glsl/algebrot2d.frag</file>
         <file>glsl/algebrot3d.frag</file>
     </qresource>
