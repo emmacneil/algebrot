@@ -5,6 +5,7 @@
 
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLTexture>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLWidget>
 
@@ -37,6 +38,7 @@ protected:
 
     QOpenGLBuffer vertexBufferObject;
     QOpenGLShaderProgram *shaderProgram;
+    QOpenGLTexture *texture;
     QOpenGLVertexArrayObject vertexArrayObject;
 
     QWidget *parent;

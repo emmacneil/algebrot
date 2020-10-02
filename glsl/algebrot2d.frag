@@ -1,6 +1,6 @@
 #version 130
-uniform vec2 bottomLeft;
-uniform vec2 modulus;
+uniform vec3 bottomLeft;
+uniform vec3 modulus;
 uniform float scale;
 uniform int iter;
 
@@ -14,19 +14,13 @@ void main(void)
 
     mat2 T = mat2(0, 1, -b, -a);
     mat2 I = mat2(1, 0, 0, 1);
-    B = scale * gl_FragCoord.xy + bottomLeft;
+    B = scale * gl_FragCoord.xy + bottomLeft.xy;
     X = B;
     for (i = 0; i < iter; i++)
     {
-        float x = X.x, y = X.y; // Coefficients of yt + x, from the given point
-        mat2 A = y*T + x*I;
-
-        // Determinant of A
-        float detA = A[0][0]*A[1][1] - A[1][0]*A[0][1];
+        mat2 A = X.y*T + X.x*I;
         X = A*X + B;
-
-        // This is just a guess...
-        if (detA > 4.0f)
+        if (X.x*X.x + X.y*X.y > 4.0f)
             break;
     }
 

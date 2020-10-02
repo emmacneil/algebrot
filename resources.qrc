@@ -6,4 +6,7 @@
         <file>glsl/algebrot2d.frag</file>
         <file>glsl/algebrot3d.frag</file>
     </qresource>
+    <qresource prefix="/">
+        <file>img/gradient.png</file>
+    </qresource>
 </RCC>

@@ -36,8 +36,7 @@ void FractalWidget::initializeGL()
     shaderProgram = new QOpenGLShaderProgram;
     if (!shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/glsl/shader.vert"))
         qDebug() << shaderProgram->log();
-    if (shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/glsl/algebrot2d.frag"))
-        qDebug() << shaderProgram->log();
+    if (shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/glsl/algebrot3d.frag"))
     if (!shaderProgram->link())
         qDebug() << shaderProgram->log();
 
@@ -57,6 +56,8 @@ void FractalWidget::initializeGL()
 
     f->glEnableVertexAttribArray(0);
     f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), nullptr);
+
+    texture = new QOpenGLTexture(QImage(":/img/gradient.png"));
 
     vertexBufferObject.release();
     shaderProgram->release();
@@ -103,14 +104,15 @@ void FractalWidget::paintGL()
     qDebug() << modulus;
     QOpenGLVertexArrayObject::Binder vertexArrayObjectBinder(&vertexArrayObject);
     shaderProgram->bind();
-    // set uniform values with shaderProgram->setUniformValue(...)
+    texture->bind();
+
     float x = center.x() - width()*scale/2.0f;
     float y = center.y() - height()*scale/2.0f;
     float z = center.z();
-    shaderProgram->setUniformValue(glslBottomLeftLocation, x, y);
-    shaderProgram->setUniformValue(glslModulusLocation, modulus.x(), modulus.y());
+    shaderProgram->setUniformValue(glslBottomLeftLocation, x, y, z);
+    shaderProgram->setUniformValue(glslModulusLocation, modulus);
     shaderProgram->setUniformValue(glslScaleLocation, scale);
-    shaderProgram->setUniformValue(glslIterLocation, 200);
+    shaderProgram->setUniformValue(glslIterLocation, 100);
     f->glDrawArrays(GL_QUADS, 0, 4);
     shaderProgram->release();
 }

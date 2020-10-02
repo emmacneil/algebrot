@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     cLineEdit = new QLineEdit;
     //aLineEdit->setEnabled(false);
     //bLineEdit->setEnabled(false);
-    cLineEdit->setEnabled(false);
+    //cLineEdit->setEnabled(false);
     modulusLayout->addRow(tr("A:"), aLineEdit);
     modulusLayout->addRow(tr("B:"), bLineEdit);
     modulusLayout->addRow(tr("C:"), cLineEdit);
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     xLineEdit = new QLineEdit;
     yLineEdit = new QLineEdit;
     zLineEdit = new QLineEdit;
-    zLineEdit->setEnabled(false);
+    //zLineEdit->setEnabled(false);
     scaleLineEdit = new QLineEdit;
     viewLayout->addRow(tr("X:"), xLineEdit);
     viewLayout->addRow(tr("Y:"), yLineEdit);
