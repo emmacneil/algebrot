@@ -1,5 +1,4 @@
 #include "fractal_widget.hpp"
-#include "shader.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -42,7 +41,6 @@ void FractalWidget::initializeGL()
         qDebug() << shaderProgram->log();
 
     shaderProgram->bind();
-    glslTexSamplerLocation = shaderProgram->uniformLocation("texSampler");
     glslBottomLeftLocation = shaderProgram->uniformLocation("bottomLeft");
     glslModulusLocation = shaderProgram->uniformLocation("modulus");
     glslScaleLocation = shaderProgram->uniformLocation("scale");
@@ -114,7 +112,6 @@ void FractalWidget::paintGL()
     shaderProgram->bind();
     texture->bind(0);
 
-    shaderProgram->setUniformValue(glslTexSamplerLocation, 0);
     shaderProgram->setUniformValue(glslBottomLeftLocation, x, y, z);
     shaderProgram->setUniformValue(glslModulusLocation, modulus);
     shaderProgram->setUniformValue(glslScaleLocation, scale);

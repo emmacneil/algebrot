@@ -27,7 +27,6 @@ public:
     void setScale(float s);
 
 protected:
-    int glslTexSamplerLocation;
     int glslBottomLeftLocation;
     int glslModulusLocation;
     int glslScaleLocation;
