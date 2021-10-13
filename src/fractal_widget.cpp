@@ -34,8 +34,8 @@ void FractalWidget::initializeGL()
     f->glEnable(GL_TEXTURE_1D);
 
     shaderProgram = new QOpenGLShaderProgram;
-    if (!shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/glsl/shader.vert"))
-        qDebug() << shaderProgram->log();
+    //if (!shaderProgram->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/glsl/shader.vert"))
+    //    qDebug() << shaderProgram->log();
     if (shaderProgram->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/glsl/algebrot3d.frag"))
     if (!shaderProgram->link())
         qDebug() << shaderProgram->log();

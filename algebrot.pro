@@ -30,6 +30,9 @@ HEADERS += \
     include/fractal_widget.hpp \
     include/mainwindow.hpp
 
+OBJECTS_DIR = build
+MOC_DIR = build
+
 DISTFILES += \
     glsl/algebrot2d.frag \
     glsl/algebrot3d.frag
